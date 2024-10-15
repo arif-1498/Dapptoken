@@ -99,7 +99,8 @@ function App() {
           Add Rinkeby Test Network
         </button>
       </header>
-    </div>
+    </div>   
+    
   );
 }
 
