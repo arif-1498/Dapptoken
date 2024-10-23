@@ -1,9 +1,9 @@
 import { createConfig, http } from 'wagmi'
-import { mainnet, polygon, sepolia } from 'wagmi/chains'
+import { mainnet, sepolia } from 'wagmi/chains'
 import {injected, metaMask} from 'wagmi/connectors'
 
 
-export const Configs=createConfig({
+export const configs=createConfig({
   chains: [mainnet, sepolia,],
   connectors:[
     injected(),
@@ -11,11 +11,9 @@ export const Configs=createConfig({
 
   ],
   transports :{
-    [mainnet.id]:http(),
-    [polygon.id]:http(),
+    [mainnet.id]:http('https://mainnet.example.com'),
+    [sepolia.id]:http('https://sepolia.example.com'),
   
   },
   
-}
-
-);
+});

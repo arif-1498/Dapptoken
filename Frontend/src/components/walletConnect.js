@@ -1,11 +1,27 @@
-import {Connector, useConnect} from 'wagmi'
+import { useConnect} from 'wagmi'
+import { useState } from 'react';
 
 export const WalletOptions=()=>{
-    console.log('arifffffffffffffffffffffffffffffffffffffffffffffffffffff')
-    const {connectors, connect}=useConnect();
+    const {connectors, connect} =useConnect();
+    // const [mapDataId, setMapDataId] = useState([]);
+    // const [mapDataName, setMapDataName] = useState([]);
 
-    console.log('ariffffffffffffff with output', {connectors});
-    return connectors.map((connector)=>{
-        <button key={connector.id} onClick={()=>connect({connector})}>{connector.name}</button>
-    })
+    const data = [
+        { id: 1, title: 'Item 1', buttonText: 'Click 1' },
+        { id: 2, title: 'Item 2', buttonText: 'Click 2' },
+        { id: 3, title: 'Item 3', buttonText: 'Click 3' },
+      ];
+    
+   console.log( "connectors :", connectors);
+   return (
+   <div>
+    
+      {connectors.map((item) => (
+        <div key={item.id}>
+          <button onClick={()=>connect({item})}>{item.name}</button>
+        </div>
+      ))}
+
+   </div>
+   )
 } 
