@@ -16,9 +16,10 @@ export const WalletOptions=()=>{
    return (
    <div>
     
-      {connectors.map((item) => (
-        <div key={item.id}>
-          <button onClick={()=>connect({item})}>{item.name}</button>
+      {connectors.map((connector) => (
+        
+        <div key={connector.id}>
+          <button onClick={()=>connect({connector})}>{connector.name}</button>
         </div>
       ))}
 

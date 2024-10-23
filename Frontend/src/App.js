@@ -2,24 +2,24 @@ import React, { useEffect, useState } from "react";
 import Web3 from "web3";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./App.css";
-//import { WagmiProvider, useAccount, useConfig} from "wagmi";
 import { configs } from "./Contract/configs.js";
 import { Accounts } from "./components/accounts.js";
 import { WalletOptions } from "./components/walletConnect.js";
-import {WagmiProvider} from 'wagmi'
+import {WagmiProvider, useAccount} from 'wagmi'
 
 function App() {
  
   const queryCliets = new QueryClient();
-  //console.log(Configs);
-   /*
+  
+  
+   const WalletConnection=()=>{
+    const {isConnected}=useAccount();
+    if (isConnected){
+      return <Accounts/>
+    }
+    else {return <WalletOptions/>}
 
-    <WagmiProvider config={configs}>
-            
-          </WagmiProvider>
-   
-               
-         <WalletOptions />*/
+   }
             
 
   return (
@@ -28,7 +28,7 @@ function App() {
        <h1>hello </h1>
        <WagmiProvider config={configs}>
        <QueryClientProvider client={queryCliets}>
-           <WalletOptions />
+           <WalletConnection/>
        </QueryClientProvider>
        </WagmiProvider>
       </header>
