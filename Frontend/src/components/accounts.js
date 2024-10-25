@@ -1,21 +1,29 @@
-import { useAccount, useDisconnect, useEnsAvatar, useEnsName } from 'wagmi'
+import { useAccount, useDisconnect, useEnsAvatar, useEnsName } from "wagmi";
 
+export const Accounts = () => {
+  const { address } = useAccount();
+  const { disconnect } = useDisconnect();
+  const { data: ensName } = useEnsName({ address });
+  const { data: ensAvatar } = useEnsAvatar({ name: ensName });
 
-export const Accounts=()=>{
-    const {address}=useAccount();
-    const {disconnect}=useDisconnect();
-    const {data:ensName}=useEnsName({address});
-    const {data:ensAvatar} =useEnsAvatar({name:ensName})
-     
-    console.log(address);
-    console.log(ensName)
+  console.log(address);
+  console.log(ensName);
 
-    return(
-        <div>
-            {ensAvatar && <img alt='ENS Name' src={ensAvatar} />}
-            {ensName && <div>{ensName? `${ensName}(${address})`:address}</div> }
-            <button onClick={()=>{disconnect()}}>Disconnect</button>
-        
+  return (
+    <div>
+      <div class="container mt-6">
+        <div class="card" >
+          <div class="card-body">
+            <h5 class="card-title">Wallet info</h5>
+            <p class="card-text">
+              Your Wallet address: {address}
+            </p>
+            <button onClick={() => { disconnect(); }}  class="btn btn-primary">
+              Disconnect
+            </button>
+          </div>
         </div>
-    )
-}
+      </div>
+    </div>
+  );
+};
