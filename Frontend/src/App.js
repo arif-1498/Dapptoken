@@ -7,11 +7,12 @@ import { Accounts } from "./components/accounts.js";
 import { WalletOptions } from "./components/walletConnect.js";
 import {WagmiProvider, useAccount} from 'wagmi'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {ContractData} from './components/contractdata.js'
 
 function App() {
  
   const queryCliets = new QueryClient();
-  
+    
   
    const WalletConnection=()=>{
     const {isConnected}=useAccount();
@@ -29,7 +30,7 @@ function App() {
        <h1>hello </h1>
        <WagmiProvider config={configs}>
        <QueryClientProvider client={queryCliets}>
-          <WalletConnection/>
+          <ContractData/>
        </QueryClientProvider>
        </WagmiProvider>
       </header>
