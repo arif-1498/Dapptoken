@@ -1,9 +1,12 @@
-import {useReadContract} from 'wagmi'
+import {useReadContract, useWalletClient  } from 'wagmi'
 import {Contractconfig} from '../Contract/contractconfig.js' 
+import {} from 'wagmi/actions'
 
 export const ContractData=()=>{
-    
+     const { data:walletclient, isError, isLoading}=useWalletClient();
 
+
+   console.log(walletclient);
     const{data: balance}=useReadContract({
         ...Contractconfig,
         functionName: 'balanceOf',
@@ -14,7 +17,7 @@ export const ContractData=()=>{
   
     return(
         <>
-        <h1>Contract data component</h1>
+        <h1>Contract data component...</h1>
         </>
     )
 }
