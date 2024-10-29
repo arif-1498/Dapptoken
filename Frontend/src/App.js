@@ -8,6 +8,7 @@ import { WalletOptions } from "./components/walletConnect.js";
 import {WagmiProvider, useAccount} from 'wagmi'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {ContractData} from './components/contractdata.js'
+import {Products} from './components/procducts.js'
 
 function App() {
  
@@ -27,10 +28,11 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-       <h1>hello </h1>
+       <h1> Blockchain based Ecomerce </h1>
        <WagmiProvider config={configs}>
        <QueryClientProvider client={queryCliets}>
-          <ContractData/>
+          <WalletConnection/>
+          <Products/>
        </QueryClientProvider>
        </WagmiProvider>
       </header>
