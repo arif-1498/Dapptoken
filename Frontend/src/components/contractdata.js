@@ -5,7 +5,7 @@ import { ethers } from "ethers";
 import { sepolia } from "viem/chains";
 import { Abi } from "../Contract/ContractABI.js";
 
-const CONTRACT_ADDRESS = "0xaA8E23Fb1079EA71e0a56F48a2aA51851D8433D0";
+const CONTRACT_ADDRESS = "0x7169D38820dfd117C3FA1f22a697dBA58d90BA06";
 const contractABI = [
   {
     constant: true,
@@ -424,8 +424,10 @@ export const ContractData = () => {
 
   const data = writeContractAsync({
     chainId: sepolia.id,
-    address: "0x7169D38820dfd117C3FA1f22a697dBA58d90BA06",
+    address: CONTRACT_ADDRESS,
     abi: contractABI,
+    functionName: 'transfer',
+    args:[]
   });
 
   console.log(data);
