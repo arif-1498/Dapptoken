@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Web3 from "web3";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { FaCartPlus } from "react-icons/fa";
 import "./App.css";
 import { configs } from "./Contract/configs.js";
 import { Accounts } from "./components/accounts.js";
@@ -28,6 +29,9 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+      <div>
+      <FaCartPlus/>
+    </div>
        <h1> Blockchain based Ecomerce </h1>
        <WagmiProvider config={configs}>
        <QueryClientProvider client={queryCliets}>
