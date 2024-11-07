@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { ProductCard } from "./Productcard";
+import {} from "react-redux"
 
 export const Products = () => {
   const [prodata, setprodata] = useState([]);
@@ -22,7 +23,7 @@ export const Products = () => {
       }
     };
     fetchdata();
-  }, [prodata]);
+  }, []);
 
   console.log("list outside:", prodata);
 

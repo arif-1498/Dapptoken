@@ -1,5 +1,6 @@
 import { useConnect} from 'wagmi'
 import { useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export const WalletOptions=()=>{
     const {connectors, connect} =useConnect();
@@ -19,7 +20,7 @@ export const WalletOptions=()=>{
       {connectors.map((connector) => (
         
         <div key={connector.id}>
-          <button onClick={()=>connect({connector})}>{connector.name}</button>
+          <button  class="btn btn-card" onClick={()=>connect({connector})}>{connector.name}</button>
         </div>
       ))}
 

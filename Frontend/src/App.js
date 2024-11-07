@@ -10,6 +10,7 @@ import {WagmiProvider, useAccount} from 'wagmi'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {ContractData} from './components/contractdata.js'
 import {Products} from './components/procducts.js'
+import { Cartbox } from "./components/cart.js";
 
 function App() {
  
@@ -36,7 +37,12 @@ function App() {
        <WagmiProvider config={configs}>
        <QueryClientProvider client={queryCliets}>
           <WalletConnection/>
-          <Products/>
+         <div className="d-flex" >
+          <div><Products/></div>
+          <div><Cartbox/></div>
+         </div>
+          
+          
        </QueryClientProvider>
        </WagmiProvider>
       </header>
