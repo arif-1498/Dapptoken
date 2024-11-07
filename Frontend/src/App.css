@@ -1,3 +1,14 @@
+*{
+  background-color: hsl(220, 10%, 94%);
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.sticky-cart {
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 20px; /* Distance from the top of the viewport */
+}
+
+
 .App {
   text-align: center;
 }

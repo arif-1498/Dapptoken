@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { FaArrowLeft } from 'react-icons/fa';
 import axios from "axios";
-import { useLocation } from "react-router-dom";
-import { Card, Spinner } from "react-bootstrap";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Card, Spinner, Button, Row, Col, Badge,Container } from "react-bootstrap";
+
 
 export const ItemDetail = () => {
   const [product, setProduct] = useState(null);
@@ -10,6 +12,11 @@ export const ItemDetail = () => {
   const searchParams = new URLSearchParams(location.search);
   const productId = searchParams.get("productId");
   console.log('iddddd', productId)
+  const navigate= useNavigate();
+
+  const HandleBack=()=>{
+    navigate("/")
+  }
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -44,26 +51,49 @@ export const ItemDetail = () => {
   }
 
   return (
-    <div className="container mt-5">
-      <Card className="text-center">
-        <Card.Img variant="top" src={product.thumbnail} alt={product.title} />
-        <Card.Body>
-          <Card.Title>{product.title}</Card.Title>
-          <Card.Text>
-            <strong>Brand:</strong> {product.brand}
-          </Card.Text>
-          <Card.Text>
-            <strong>Price:</strong> ${product.price}
-          </Card.Text>
-          <Card.Text>
-            <strong>Description:</strong> {product.description}
-          </Card.Text>
-          <Card.Text>
-            <strong>Category:</strong> {product.category}
-          </Card.Text>
-        </Card.Body>
-      </Card>
-    </div>
+
+
+    <Container className="my-5">
+      <Button onClick={HandleBack} variant="secondary" size="lg" className="mb-4">
+           <FaArrowLeft/> Back to Home Page
+          </Button>
+      <Row>
+        {/* Product Image */}
+        <Col md={6}>
+          <Card>
+            <Card.Img  src={product.images} alt={product.title} />
+          </Card>
+        </Col>
+
+        {/* Product Details */}
+        <Col md={6}>
+          <h1>{product.title}</h1>
+
+          <h3 className="text-primary">{product.price}</h3>
+          
+          {/* Rating */}
+          <div className="my-2">
+            <span className="text-warning">
+              {'★'.repeat(Math.floor(product.rating))}
+              {'☆'.repeat(5 - Math.floor(product.rating))}
+            </span>
+            <Badge bg="secondary" className="ms-2">
+              {product.numReviews} reviews
+            </Badge>
+          </div>
+
+          {/* Product Description */}
+          <p className="my-3">{product.description}</p>
+
+          {/* Add to Cart Button */}
+          <Button variant="primary" size="lg" className="mt-3">
+            Add to Cart
+          </Button>
+        </Col>
+      </Row>
+    </Container>
+    
+    
   );
 };
 

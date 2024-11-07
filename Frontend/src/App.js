@@ -7,6 +7,7 @@ import "./App.css";
 import { configs } from "./Contract/configs.js";
 import { Accounts } from "./components/accounts.js";
 import { WalletOptions } from "./components/walletConnect.js";
+import { Container, Row, Col } from "react-bootstrap";
 import { WagmiProvider, useAccount } from "wagmi";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { ContractData } from "./components/contractdata.js";
@@ -24,35 +25,38 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <div>
-          <FaCartPlus />
-        </div>
-        <h1> Blockchain-based E-commerce </h1>
-        <WagmiProvider config={configs}>
-          <BrowserRouter>
-            <QueryClientProvider client={queryClient}>
-              <WalletConnection />
-              <Routes>
-                <Route
-                  path="/"
-                  element={
-                    <div className="d-flex">
-                      <div>
-                        <Products />
-                      </div>
-                      <div>
-                        <Cartbox />
-                      </div>
-                    </div>
-                  }
-                />
-                <Route path="/itemDetail" element={<ItemDetail />} />
-              </Routes>
-            </QueryClientProvider>
-          </BrowserRouter>
-        </WagmiProvider>
-      </header>
+      <h1> Blockchain-based E-commerce </h1>
+      <WagmiProvider config={configs}>
+        <BrowserRouter>
+          <QueryClientProvider client={queryClient}>
+            <WalletConnection />
+
+            
+
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <Container fluid className="my-5">
+              <Row>
+                {/* Product List on the Left */}
+                <Col md={8}>
+                  <Products />
+                </Col>
+
+                {/* Cart Component on the Right */}
+                <Col md={4} className="sticky-cart">
+                <Cartbox />
+                </Col>
+              </Row>
+            </Container>
+                }
+              />
+              <Route path="/itemDetail" element={<ItemDetail />} />
+            </Routes>
+          </QueryClientProvider>
+        </BrowserRouter>
+      </WagmiProvider>
     </div>
   );
 }
