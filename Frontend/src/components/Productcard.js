@@ -1,8 +1,14 @@
 import { Card, Button } from "react-bootstrap";
 import { FaCartPlus } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { AddToCart } from "../Redux/actions/CartItems";
+
+
+
 
 export const ProductCard = ({ product }) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const goToDetailPage = (id) => {
@@ -17,7 +23,7 @@ export const ProductCard = ({ product }) => {
           <Card.Title>{product.title}</Card.Title>
           <p className="card-text small">Brand: {product.brand}</p>
           <h5>${product.price}</h5>
-          <Button variant="primary">
+          <Button onClick={()=>{dispatch(AddToCart(product))}} variant="primary">
             <FaCartPlus /> Add to Cart
           </Button>
           <Button onClick={() => goToDetailPage(product?.id)}>
