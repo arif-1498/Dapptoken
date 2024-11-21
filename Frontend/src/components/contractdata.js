@@ -1,10 +1,9 @@
-import { useReadContrat, useWalletClient, useWriteContract } from "wagmi";
+import { useReadContrat, useWalletClient, useWriteContract,useAccount } from "wagmi";
 import { Contractconfig } from "../Contract/contractconfig.js";
-import {} from "wagmi/actions";
-import { ethers } from "ethers";
-import { sepolia } from "viem/chains";
-import { Abi } from "../Contract/ContractABI.js";
 
+
+import { ethers, parseEther } from "ethers";
+import { sepolia } from "viem/chains";
 const CONTRACT_ADDRESS = "0x7169D38820dfd117C3FA1f22a697dBA58d90BA06";
 const contractABI = [
   {
@@ -419,26 +418,30 @@ const contractABI = [
 ];
 
 export const ContractData = () => {
-  const { writeContractAsync } = useWriteContract();
-  const { data: walletclient, isError, isLoading } = useWalletClient();
+  const {address}=useAccount();
+  const { data: hash, writeContractAsync} = useWriteContract();
+  //const recipent='0x2435aE99dEDbC92F3C8AF67220b70774F17E9932';
+  //const amount= 2*1000000;
+  const Transfertoken = ()=>{
+    writeContractAsync({
+      chainId: sepolia.id,
+      address: CONTRACT_ADDRESS,
+      abi: contractABI,
+      functionName: 'transfer',
+      args:['0x2435aE99dEDbC92F3C8AF67220b70774F17E9932',2*1000000 ],
+    });
+  }
 
-  const data = writeContractAsync({
-    chainId: sepolia.id,
-    address: CONTRACT_ADDRESS,
-    abi: contractABI,
-    functionName: 'transfer',
-    args:[]
-  });
+  console.log(hash);
 
-  console.log(data);
-
-  const getContract = () => {
-    return new ethers.Contract();
-  };
-
+ 
+    
   return (
     <>
-      <h1>Contract data component...</h1>
+      <h1>tranfer token</h1>
+      <button onClick={Transfertoken}>tranfer token</button>
+      <p>Transaction hash: {hash}</p>
+      
     </>
-  );
-};
+  )
+}

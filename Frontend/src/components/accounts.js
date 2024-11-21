@@ -14,15 +14,15 @@ export const Accounts = () => {
 
   return (
     <div>
-      <div class="container mt-6">
-        <div class="card" >
-          <div class="card-body">
-            <h5 class="card-title">Wallet info</h5>
-            <p class="card-text">
+      <div className="container mt-6">
+        <div className="card" >
+          <div className="card-body">
+            <h5 className="card-title">Wallet info</h5>
+            <p className="card-text">
               Your Wallet address: {address}
             </p>
             <p>Your account balance:{data?data.value:"loading..."}</p>
-            <button onClick={() => { disconnect(); }}  class="btn btn-primary">
+            <button onClick={() => { disconnect(); }}  className="btn btn-primary">
               Disconnect
             </button>
           </div>

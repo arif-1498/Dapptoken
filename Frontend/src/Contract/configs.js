@@ -11,9 +11,9 @@ export const configs=createConfig({
 
   ],
   transports :{
-    [mainnet.id]:http('https://mainnet.example.com'),
-    [sepolia.id]:http('https://sepolia.example.com'),
-  
+    [mainnet.id]:http(),
+    [sepolia.id]:http(),
   },
+  ssr: true, 
   
 });

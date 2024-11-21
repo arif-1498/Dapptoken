@@ -10,10 +10,10 @@ import { WalletOptions } from "./components/walletConnect.js";
 import { Container, Row, Col } from "react-bootstrap";
 import { WagmiProvider, useAccount } from "wagmi";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { ContractData } from "./components/contractdata.js";
 import { Products } from "./components/procducts.js";
 import { Cartbox } from "./components/cart.js";
 import ItemDetail from "./components/ItemDetail"; // import your ItemDetail component
+import { ContractData } from "./components/contractdata.js";
 
 function App() {
   const queryClient = new QueryClient();
@@ -21,6 +21,7 @@ function App() {
   const WalletConnection = () => {
     const { isConnected } = useAccount();
     return isConnected ? <Accounts /> : <WalletOptions />;
+    
   };
 
   return (
@@ -30,9 +31,7 @@ function App() {
         <BrowserRouter>
           <QueryClientProvider client={queryClient}>
             <WalletConnection />
-
-            
-
+            <ContractData/>
             <Routes>
               <Route
                 path="/"
@@ -45,8 +44,8 @@ function App() {
                 </Col>
 
                 {/* Cart Component on the Right */}
-                <Col md={4} className="sticky-cart">
-                <Cartbox />
+                <Col md={4} >
+                <Cartbox className="sticky-cart" />
                 </Col>
               </Row>
             </Container>

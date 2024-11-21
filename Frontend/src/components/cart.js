@@ -3,11 +3,16 @@ import { FaTrash } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { RemoveFromCart} from "../Redux/actions/CartItems";
+import { Checkout } from "./Checkout";
+import { useState } from "react";
 
 export const Cartbox = () => {
   const itemdata = useSelector((state) => state.cart.items);
   const dispatch= useDispatch();
   console.log("state item data: ", itemdata);
+  const [totalPrice, settotalPrice]=useState(0);
+   
+  
   return (
     <>
       <h1>shoping card component</h1>
@@ -44,7 +49,9 @@ export const Cartbox = () => {
       ))}
 
       <div className="mt-4">
+        <h1>Total Price: {totalPrice}</h1>
         <Stack direction="horizontal" gap={3}>
+    
           <Button variant="success" block>
             Checkout
           </Button>
