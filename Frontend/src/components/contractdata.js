@@ -6,20 +6,31 @@ import {
 } from "wagmi";
 import { useState } from "react";
 import { Contractconfig } from "../Contract/contractconfig.js";
+import { ChainOptions } from "../constants/chainoptions.js";
 
 import { ethers, parseEther } from "ethers";
 import { sepolia } from "viem/chains";
-const CONTRACT_ADDRESS = '0xaA8E23Fb1079EA71e0a56F48a2aA51851D8433D0';
-const contractABI = [
+
+const contractAddressPKRT = "0x5b6884cdfde546cdd4a60bd5e41615e5faf407c0";
+const ContractABI = [
   {
     inputs: [
-      { internalType: "string", name: "name", type: "string" },
-      { internalType: "string", name: "symbol", type: "string" },
-      { internalType: "uint8", name: "decimals", type: "uint8" },
-      { internalType: "address", name: "owner", type: "address" },
+      { internalType: "string", name: "_tokenName", type: "string" },
+      { internalType: "string", name: "_Symbol", type: "string" },
+      { internalType: "uint256", name: "_decimals", type: "uint256" },
     ],
     stateMutability: "nonpayable",
     type: "constructor",
+  },
+  {
+    inputs: [{ internalType: "address", name: "owner", type: "address" }],
+    name: "OwnableInvalidOwner",
+    type: "error",
+  },
+  {
+    inputs: [{ internalType: "address", name: "account", type: "address" }],
+    name: "OwnableUnauthorizedAccount",
+    type: "error",
   },
   {
     anonymous: false,
@@ -82,22 +93,22 @@ const contractABI = [
   },
   {
     inputs: [],
-    name: "DOMAIN_SEPARATOR",
-    outputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
+    name: "Symbol",
+    outputs: [{ internalType: "string", name: "", type: "string" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
-    name: "EIP712_REVISION",
-    outputs: [{ internalType: "bytes", name: "", type: "bytes" }],
+    name: "TokenName",
+    outputs: [{ internalType: "string", name: "", type: "string" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
-    name: "PERMIT_TYPEHASH",
-    outputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
+    name: "TotalSupply",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
@@ -107,6 +118,16 @@ const contractABI = [
       { internalType: "address", name: "spender", type: "address" },
     ],
     name: "allowance",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "", type: "address" },
+      { internalType: "address", name: "", type: "address" },
+    ],
+    name: "allowances",
     outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
@@ -129,61 +150,37 @@ const contractABI = [
     type: "function",
   },
   {
-    inputs: [],
-    name: "decimals",
-    outputs: [{ internalType: "uint8", name: "", type: "uint8" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      { internalType: "address", name: "spender", type: "address" },
-      { internalType: "uint256", name: "subtractedValue", type: "uint256" },
-    ],
-    name: "decreaseAllowance",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      { internalType: "address", name: "spender", type: "address" },
-      { internalType: "uint256", name: "addedValue", type: "uint256" },
-    ],
-    name: "increaseAllowance",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      { internalType: "address", name: "account", type: "address" },
-      { internalType: "uint256", name: "value", type: "uint256" },
-    ],
-    name: "mint",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "uint256", name: "value", type: "uint256" }],
-    name: "mint",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "name",
-    outputs: [{ internalType: "string", name: "", type: "string" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "address", name: "owner", type: "address" }],
-    name: "nonces",
+    inputs: [{ internalType: "address", name: "", type: "address" }],
+    name: "balancesOf",
     outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "from", type: "address" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
+    ],
+    name: "burn",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "decimal",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "to", type: "address" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
+    ],
+    name: "mint",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -194,32 +191,10 @@ const contractABI = [
     type: "function",
   },
   {
-    inputs: [
-      { internalType: "address", name: "owner", type: "address" },
-      { internalType: "address", name: "spender", type: "address" },
-      { internalType: "uint256", name: "value", type: "uint256" },
-      { internalType: "uint256", name: "deadline", type: "uint256" },
-      { internalType: "uint8", name: "v", type: "uint8" },
-      { internalType: "bytes32", name: "r", type: "bytes32" },
-      { internalType: "bytes32", name: "s", type: "bytes32" },
-    ],
-    name: "permit",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
     inputs: [],
     name: "renounceOwnership",
     outputs: [],
     stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "symbol",
-    outputs: [{ internalType: "string", name: "", type: "string" }],
-    stateMutability: "view",
     type: "function",
   },
   {
@@ -258,10 +233,10 @@ const contractABI = [
     type: "function",
   },
 ];
-
 export const ContractData = () => {
- 
   const [error, seterror] = useState([]);
+  const [value,  setvalue] = useState()
+  const [selectedChain, setSelectedChain] = useState("");
 
   const { address } = useAccount();
   const { writeContractAsync } = useWriteContract();
@@ -269,27 +244,48 @@ export const ContractData = () => {
   //const amount= 2*1000000;
 
   const Transfertoken = async () => {
-
-    try{
+    try {
       const data = await writeContractAsync({
         chainId: sepolia.id,
-        address: CONTRACT_ADDRESS,
-        abi: contractABI,
+        address: contractAddressPKRT,
+        abi: ContractABI,
         functionName: "transfer",
         args: ["0x2435aE99dEDbC92F3C8AF67220b70774F17E9932", 2 * 1000000],
       });
       console.log(data);
       console.log("contract method called");
-    }catch(error){
-
-      console.log(error)
-      seterror(error)
-
+    } catch (error) {
+      console.log(error);
+      seterror(error);
     }
-    
   };
 
-  
+  const mintToken=async ()=>{
+    try {
+      const data = await writeContractAsync({
+        chainId: sepolia.id,
+        address: contractAddressPKRT,
+        abi: ContractABI,
+        functionName: "mint",
+        args: [address, value * 10000000000],
+      });
+      console.log(data);
+      console.log("contract method called");
+    } catch (error) {
+      console.log(error);
+      seterror(error);
+    }
+  }
+
+  const handleChange = (event) => {
+    setSelectedChain(event.target.value);
+  };
+
+  const handleValueChange = (event) => {
+    setvalue(event.target.value);
+  }
+
+  console.log(value);
 
   return (
     <>
@@ -297,6 +293,11 @@ export const ContractData = () => {
       <button onClick={Transfertoken}>tranfer token</button>
       <p>Transaction hash: 0jjdksdjdsjsk</p>
       {error && <p>Error in tranfer amount</p>}
+      <div>
+        <input onChange={handleValueChange} type="text" />
+        <button onClick={mintToken}>mint token</button>
+        
+      </div>
     </>
   );
 };
