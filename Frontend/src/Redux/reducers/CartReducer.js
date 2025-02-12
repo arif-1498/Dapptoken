@@ -1,6 +1,7 @@
 import { Add_to_cart, Remove_from_cart, Clear_cart } from "./constants";
 
 const initial_state = {
+  
   items: [],
 };
 
